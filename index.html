@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCP by paulomcnally</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔌</text></svg>">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f5f5f7;
+      color: #1d1d1f;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 48px 24px;
+    }
+    h1 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    p.sub {
+      color: #6e6e73;
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+    input[type="search"] {
+      width: 100%;
+      padding: 10px 14px;
+      font-size: 15px;
+      border: 1px solid #d2d2d7;
+      border-radius: 10px;
+      outline: none;
+      background: #fff;
+      transition: border-color .2s;
+    }
+    input[type="search"]:focus {
+      border-color: #0071e3;
+    }
+    .list {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 1px 3px rgba(0,0,0,.06);
+      transition: box-shadow .2s;
+    }
+    .card:hover {
+      box-shadow: 0 2px 8px rgba(0,0,0,.1);
+    }
+    .card a {
+      text-decoration: none;
+      color: #1d1d1f;
+      font-weight: 500;
+    }
+    .card a:hover {
+      color: #0071e3;
+    }
+    .card .desc {
+      font-size: 13px;
+      color: #6e6e73;
+      margin-top: 2px;
+    }
+    .tag {
+      font-size: 11px;
+      font-weight: 600;
+      color: #6e6e73;
+      background: #f5f5f7;
+      padding: 3px 8px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: .03em;
+    }
+    .empty {
+      text-align: center;
+      color: #6e6e73;
+      padding: 32px 0;
+      font-size: 14px;
+    }
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      font-size: 12px;
+      color: #86868b;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>MCP by paulomcnally</h1>
+    <p class="sub">Model Context Protocol servers I've built</p>
+    <input type="search" id="search" placeholder="Search MCPs..." autofocus>
+    <div class="list" id="list"></div>
+    <footer><a href="https://github.com/paulomcnally" style="color:#86868b;text-decoration:none;">github.com/paulomcnally</a></footer>
+  </div>
+  <script>
+    const mcps = [
+      {
+        name: "eWeLink MCP",
+        url: "https://github.com/paulomcnally/ewelink-mcp",
+        desc: "Control eWeLink smart devices via MCP"
+      }
+    ];
+
+    const listEl = document.getElementById('list');
+    const searchEl = document.getElementById('search');
+
+    function render(filter) {
+      const q = (filter || '').toLowerCase();
+      const filtered = mcps.filter(m =>
+        m.name.toLowerCase().includes(q) ||
+        m.desc.toLowerCase().includes(q)
+      );
+      if (filtered.length === 0) {
+        listEl.innerHTML = '<div class="empty">No MCPs found</div>';
+        return;
+      }
+      listEl.innerHTML = filtered.map(m => `
+        <div class="card">
+          <div>
+            <a href="${m.url}" target="_blank">${m.name}</a>
+            <div class="desc">${m.desc}</div>
+          </div>
+          <span class="tag">MCP</span>
+        </div>
+      `).join('');
+    }
+
+    searchEl.addEventListener('input', e => render(e.target.value));
+    render('');
+  </script>
+</body>
+</html>
